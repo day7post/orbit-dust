@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbit Dust · 星尘轨道沙盒</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">✦</span>
+    <div>
+      <h1>Orbit Dust</h1>
+      <p>星尘轨道沙盒 · N 体引力玩具</p>
+    </div>
+  </div>
+  <div class="stats" aria-live="polite">
+    <span>天体 <strong id="stat-bodies">0</strong></span>
+    <span>总能量 <strong id="stat-energy">—</strong></span>
+    <span id="stat-state">运行中</span>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="stage">
+    <canvas id="scene" aria-label="引力沙盒画布：在空白处按住拖拽，松手发射一颗行星"></canvas>
+    <p class="hint">在空白处按住拖拽 → 出现速度箭头 → 松手发射行星。拖拽的长度与方向就是初速度。</p>
+  </section>
+
+  <aside class="panel">
+    <h2>预设场景</h2>
+    <div class="btn-row">
+      <button type="button" data-preset="solar">类太阳系</button>
+      <button type="button" data-preset="binary">双星</button>
+      <button type="button" data-preset="threebody">三体混沌</button>
+    </div>
+
+    <h2>控制</h2>
+    <div class="btn-row">
+      <button type="button" id="btn-pause">⏸ 暂停</button>
+      <button type="button" id="btn-reset">↺ 重置</button>
+      <button type="button" id="btn-random">＋ 随机行星</button>
+      <button type="button" id="btn-clear">清除行星</button>
+    </div>
+    <label class="check">
+      <input type="checkbox" id="chk-merge" checked>
+      碰撞合并（动量守恒）
+    </label>
+
+    <h2>参数</h2>
+    <label class="slider">
+      <span>引力强度 G <output id="out-g">1.00×</output></span>
+      <input type="range" id="rng-g" min="0" max="2.5" step="0.05" value="1">
+    </label>
+    <label class="slider">
+      <span>拖尾长度 <output id="out-trail">90</output></span>
+      <input type="range" id="rng-trail" min="0" max="300" step="10" value="90">
+    </label>
+    <label class="slider">
+      <span>模拟速度 <output id="out-speed">1.0×</output></span>
+      <input type="range" id="rng-speed" min="0.25" max="3" step="0.25" value="1">
+    </label>
+
+    <h2>物理模型</h2>
+    <p class="note">
+      速度 Verlet 积分（辛方法，能量不系统漂移）＋ Plummer 软化
+      ε=4px，避免近距离奇点；碰撞按完全非弹性合并，动量守恒。
+      细节见 README 与 <code>physics.js</code>。
+    </p>
+  </aside>
+</main>
+
+<script src="physics.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
