@@ -7,8 +7,8 @@ All notable changes are documented here, following Keep a Changelog and Semantic
 
 ### 规矩 / Process
 
-- 更新节奏定为：每日一小更新（补丁版本）、每月一大更新（次版本＋打 tag 发布），写入 ROADMAP。
-  Cadence set: one small update daily (patch), one major update monthly (minor version, tagged release).
+- 更新节奏定为：每周一小更新（补丁版本）、每月一大更新（次版本＋打 tag 发布），质量优先，写入 ROADMAP。（同日曾短暂定为每日一更，已改定为每周。）
+  Cadence set: one small update weekly (patch), one major update monthly (minor version, tagged release), quality first. (Briefly set to daily earlier the same day, then revised to weekly.)
 - 新增「总监签字」质量门：每版更新须过总监标准清单（视觉秩序、细节完整、功能闭环、测试全过）才发布；不达标宁可不更新并在晨报说明，不推凑数版本。
   Added a director sign-off gate: no release ships below the quality checklist; a missed day is reported honestly instead of shipping filler.
 
