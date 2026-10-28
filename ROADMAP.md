@@ -3,6 +3,14 @@
 长期维护原则：小步更新、先验证后发布、每次更新必写 [CHANGELOG](CHANGELOG.md)、版本号递增。迭代成果只在每日晨报里汇总，不另行打扰。
 Long-term maintenance: small verified steps, a changelog entry for every update, results reported only in the daily morning report.
 
+更新节奏（2026-10-29 定）：**每日一小更新，每月一大更新。**
+Cadence (set 2026-10-29): one small update every day, one major update every month.
+
+- **每日小更新**：每天晚间完成一项小而完整的改进（backlog 里的最小颗粒，或小修小补），跑通测试后推送，版本号进一位补丁号（如 0.2.1、0.2.2）。成果在次日晨报连同更新日志一并交付；当日确实无可做项或被阻塞，如实记录原因，不硬凑。
+  Daily small update: one small, complete improvement each evening, patch version bump, reported in the next morning report with its changelog entry.
+- **每月大更新**：每月 1 日做一次成规模的更新——当月路线图里程碑（如新模式方向的大功能、性能架构升级），版本号进一位次版本号（如 0.3.0），打 tag 发布 Release，更新日志写完整条目。大更新同样先过可玩性验收清单；涉及游戏模式时账号系统前置规矩不破例。
+  Monthly major update: on the 1st of each month, a milestone-scale update with a minor version bump and a tagged release; the playability checklist and the account-system gate still apply.
+
 ## 最高原则：可玩性第一，吸引用户 / Top principle: playability first
 
 后续一切优先级以本节为准；下面的 backlog 与此冲突时，以可玩性为准。
@@ -18,6 +26,23 @@ Every priority below yields to this section: if it is not fun and inviting, it d
   Feedback for every action: arrows, motion or status text — never make the player guess.
 - [ ] **留一个分享钩子**：每版至少留一个可分享 / 可炫耀的钩子（分享链接、惊喜画面、值得截图的瞬间）。
   A shareable hook in every release: a share link, a surprise moment, a screenshot worth keeping.
+
+## 总监签字：质量门 / Director sign-off — the quality gate
+
+每一版（含每日小更新）发布前由总监按此清单亲自验收，任一项不过，整版退回重做，不将就：
+Every release, daily ones included, is personally reviewed against this list; any failure sends the whole release back:
+
+- [ ] **视觉秩序**：配色统一克制，字体、字号、间距成系统；无错位、无溢出，窄屏不破版。
+  Visual order: a disciplined palette, systematic type and spacing; no misalignment, no overflow, no broken narrow-screen layout.
+- [ ] **细节完整**：文案准确无错字；按钮有正常/悬停/禁用状态；空状态、失败兜底都有交代，没有半成品入口。
+  Complete details: accurate copy, full button states, considered empty and failure states, no half-finished entry points.
+- [ ] **功能闭环**：新功能从入口到结果走得通，旧功能不被带坏；物理与分享等核心逻辑测试全过。
+  Closed loops: new features work end to end, old ones unharmed, core tests green.
+- [ ] **如实**：更新日志与实际改动一一对应，不夸大、不冒充。
+  Honesty: the changelog matches exactly what changed.
+
+与更新节奏的关系：每日一更不为凑数降标准——当天达不到，宁可不更新、在次日晨报里说明原因。每月大更新同理，规模服从质量。
+Cadence yields to quality: a day with nothing up to standard is reported as such, never filled with a substandard release.
 
 ## 优化 backlog（按优先级）/ Optimization backlog
 
