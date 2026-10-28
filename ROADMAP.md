@@ -3,6 +3,22 @@
 长期维护原则：小步更新、先验证后发布、每次更新必写 [CHANGELOG](CHANGELOG.md)、版本号递增。迭代成果只在每日晨报里汇总，不另行打扰。
 Long-term maintenance: small verified steps, a changelog entry for every update, results reported only in the daily morning report.
 
+## 最高原则：可玩性第一，吸引用户 / Top principle: playability first
+
+后续一切优先级以本节为准；下面的 backlog 与此冲突时，以可玩性为准。
+Every priority below yields to this section: if it is not fun and inviting, it does not ship first.
+
+每次迭代的验收清单（全过才算完成）/ Acceptance checklist for every iteration:
+
+- [ ] **打开即玩**：首屏场景自动运行，零注册、零学习成本，第一眼就知道能动手。
+  Instant play: the first screen is already moving; no sign-up, no learning curve.
+- [ ] **流畅红线**：天体再多也不能明显卡顿——有天体上限、有 FPS 监测与自适应降质，降质要让用户知情。
+  Smoothness red line: body caps, FPS monitoring and adaptive quality, disclosed to the player.
+- [ ] **操作有反馈**：每个动作都有即时可见的回应（箭头、动效、状态文字），不让用户猜有没有生效。
+  Feedback for every action: arrows, motion or status text — never make the player guess.
+- [ ] **留一个分享钩子**：每版至少留一个可分享 / 可炫耀的钩子（分享链接、惊喜画面、值得截图的瞬间）。
+  A shareable hook in every release: a share link, a surprise moment, a screenshot worth keeping.
+
 ## 优化 backlog（按优先级）/ Optimization backlog
 
 1. **性能**：天体数量上升时引入 Barnes–Hut 近似或空间划分；子步数自适应；拖尾渲染优化，保证帧率稳定。

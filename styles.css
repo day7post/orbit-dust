@@ -37,12 +37,22 @@ body {
   gap: 14px; padding: 14px; min-height: 0;
 }
 .stage { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.canvas-wrap { position: relative; flex: 1; display: flex; min-height: 0; }
 #scene {
   flex: 1; width: 100%; min-height: 420px;
   background: radial-gradient(ellipse at center, #0a1220 0%, #05080f 70%);
   border: 1px solid var(--line); border-radius: 12px;
   touch-action: none; cursor: crosshair; display: block;
 }
+.first-tip {
+  position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+  margin: 0; padding: 9px 16px; border-radius: 999px; white-space: nowrap;
+  background: rgba(14, 22, 38, 0.82); border: 1px solid var(--line);
+  color: var(--accent-2); font-size: 14px; letter-spacing: .3px;
+  pointer-events: none; opacity: 1; transition: opacity .8s ease;
+}
+.first-tip.hide { opacity: 0; }
+#stat-quality { color: var(--accent-2); font-weight: 600; }
 .hint { margin: 0; font-size: 12.5px; color: var(--muted); }
 .panel {
   background: var(--panel); border: 1px solid var(--line); border-radius: 12px;

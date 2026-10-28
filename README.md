@@ -12,6 +12,12 @@ A self-contained single-page interactive physics toy: drag to launch planets and
 - **预设场景**：类太阳系（Solar-like）/ 双星（Binary）/ 三体混沌（Three-body chaos, figure-8 起手）。
 - **控制**：暂停 / 重置 / 随机行星 / 清除行星；碰撞合并开关。
 - **参数滑杆**：引力强度 G（0–2.5×）、拖尾长度（0–300）、模拟速度（0.25–3×）。
+- **✦ 惊喜一下**：一键生成偏心彗星 + 一簇星尘，立刻有好看的画面。
+  Surprise button: an eccentric comet plus a stardust cluster, instantly.
+- **复制分享链接**：当前场景被编进 URL hash（`share.js`，带数值校验），打开链接即可还原同一片星尘；坏链接自动回退默认预设。
+  Share links: the scene is encoded into the URL hash with validation; bad links fall back to the default preset.
+- **可玩性保障**：天体上限 240（顶栏显示 n/240）；顶栏显示 FPS，帧率持续偏低时自动降质（先缩短拖尾、再减子步）并明示「流畅模式」，恢复后自动还原。
+  Playability guards: 240-body cap, live FPS readout, and disclosed adaptive quality when the frame rate dips.
 
 ## 物理模型 / Physics
 
@@ -54,6 +60,7 @@ approximate energy conservation, and momentum-conserving merges.
 | `styles.css` | 深色视觉样式（响应式，窄屏单列） |
 | `main.js` | 画布渲染、交互、预设场景 |
 | `physics.js` | 物理核心（Verlet + 软化 + 合并） |
+| `share.js` | 分享链接编解码（浏览器 / Node 共用） |
 | `tests/physics.test.js` | Node 测试（无第三方依赖） |
 | `docs/codex-review.md` | Codex 优化咨询记录（含失败实情） |
 | `ROADMAP.md` | 长期优化路线与游戏模式/账号系统规矩 |

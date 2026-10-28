@@ -16,15 +16,20 @@
     </div>
   </div>
   <div class="stats" aria-live="polite">
-    <span>天体 <strong id="stat-bodies">0</strong></span>
+    <span>天体 <strong id="stat-bodies">0</strong>/240</span>
+    <span>FPS <strong id="stat-fps">—</strong></span>
     <span>总能量 <strong id="stat-energy">—</strong></span>
+    <span id="stat-quality" hidden>流畅模式</span>
     <span id="stat-state">运行中</span>
   </div>
 </header>
 
 <main class="layout">
   <section class="stage">
-    <canvas id="scene" aria-label="引力沙盒画布：在空白处按住拖拽，松手发射一颗行星"></canvas>
+    <div class="canvas-wrap">
+      <canvas id="scene" aria-label="引力沙盒画布：在空白处按住拖拽，松手发射一颗行星"></canvas>
+      <p id="first-tip" class="first-tip">✦ 按住拖拽，松手发射你的第一颗行星</p>
+    </div>
     <p class="hint">在空白处按住拖拽 → 出现速度箭头 → 松手发射行星。拖拽的长度与方向就是初速度。</p>
   </section>
 
@@ -42,7 +47,14 @@
       <button type="button" id="btn-reset">↺ 重置</button>
       <button type="button" id="btn-random">＋ 随机行星</button>
       <button type="button" id="btn-clear">清除行星</button>
+      <button type="button" id="btn-surprise">✦ 惊喜一下</button>
     </div>
+
+    <h2>分享</h2>
+    <div class="btn-row">
+      <button type="button" id="btn-share">🔗 复制分享链接</button>
+    </div>
+    <p class="note">把当前这片星尘编进链接里，朋友打开就能看到同一片轨道。</p>
     <label class="check">
       <input type="checkbox" id="chk-merge" checked>
       碰撞合并（动量守恒）
@@ -72,6 +84,7 @@
 </main>
 
 <script src="physics.js"></script>
+<script src="share.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
