@@ -57,6 +57,11 @@ approximate energy conservation, and momentum-conserving merges.
 | `tests/physics.test.js` | Node 测试（无第三方依赖） |
 | `docs/codex-review.md` | Codex 优化咨询记录（含失败实情） |
 
+## 更新日志 / Changelog
+
+见 [CHANGELOG.md](CHANGELOG.md) — 每次更新都会在那里留一条记录。
+See [CHANGELOG.md](CHANGELOG.md) — every update gets an entry there.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
