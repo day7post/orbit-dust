@@ -56,6 +56,8 @@ approximate energy conservation, and momentum-conserving merges.
 | `physics.js` | 物理核心（Verlet + 软化 + 合并） |
 | `tests/physics.test.js` | Node 测试（无第三方依赖） |
 | `docs/codex-review.md` | Codex 优化咨询记录（含失败实情） |
+| `ROADMAP.md` | 长期优化路线与游戏模式/账号系统规矩 |
+| `CHANGELOG.md` | 更新日志（每次更新必写） |
 
 ## 更新日志 / Changelog
 

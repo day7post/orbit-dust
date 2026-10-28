@@ -5,7 +5,12 @@ All notable changes are documented here, following Keep a Changelog and Semantic
 
 ## [Unreleased]
 
-- 暂无。 / Nothing yet.
+### 新增 / Added
+
+- 新增 [ROADMAP.md](ROADMAP.md)：长期优化 backlog（性能、物理精度、体验、工程质量）与迭代原则。
+  Added ROADMAP.md with the long-term optimization backlog and maintenance principles.
+- 立下硬性规矩并写入路线图：若推出游戏模式，必须先落地账号系统（托管身份服务、不自存密码、最小数据、游客可玩但进度仅本地）；沙盒模式永远免账号。
+  Recorded a hard gate: any future game mode ships only after an account system (managed auth, no self-stored passwords, minimal data, guest play with local-only progress); the sandbox remains account-free.
 
 ## [0.1.0] - 2026-10-28
 
