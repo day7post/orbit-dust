@@ -1,12 +1,12 @@
 # 路线图 / Roadmap
 
-长期维护原则：小步更新、先验证后发布、每次更新必写 [CHANGELOG](CHANGELOG.md)、版本号递增。迭代成果只在每日晨报里汇总，不另行打扰。
+长期维护原则：小步更新、先验证后发布、每次更新必写 [CHANGELOG](CHANGELOG.md)、版本号递增。迭代成果只在每周报告里汇总，不另行打扰。
 Long-term maintenance: small verified steps, a changelog entry for every update, results reported only in the daily morning report.
 
 更新节奏（2026-10-29 定，同日改定）：**每周一小更新，每月一大更新，质量优先。**
 Cadence (set 2026-10-29, revised same day): one small update every week, one major update every month, quality first.
 
-- **每周小更新**：每周日晚完成一项小而完整的改进（backlog 里的最小颗粒，或小修小补），跑通测试并过总监质量门后推送，版本号进一位补丁号（如 0.2.1、0.2.2）。成果在次日晨报连同更新日志一并交付；当周无可做项、质量门不过，或当周已发布每月大更新，如实记录原因并跳过，不硬凑。
+- **每周小更新**：每周日晚完成一项小而完整的改进（backlog 里的最小颗粒，或小修小补），跑通测试并过总监质量门后推送，版本号进一位补丁号（如 0.2.1、0.2.2）。成果在次日周一的每周报告连同更新日志一并交付；当周无可做项、质量门不过，或当周已发布每月大更新，如实记录原因并跳过，不硬凑。
   Weekly small update: one small, complete improvement each Sunday evening, gated by the director sign-off, patch version bump, reported in the next morning report with its changelog entry.
 - **每月大更新**：每月 1 日做一次成规模的更新——当月路线图里程碑（如新模式方向的大功能、性能架构升级），版本号进一位次版本号（如 0.3.0），打 tag 发布 Release，更新日志写完整条目。大更新同样先过可玩性验收清单；涉及游戏模式时账号系统前置规矩不破例。
   Monthly major update: on the 1st of each month, a milestone-scale update with a minor version bump and a tagged release; the playability checklist and the account-system gate still apply.
@@ -41,7 +41,7 @@ Every release, daily ones included, is personally reviewed against this list; an
 - [ ] **如实**：更新日志与实际改动一一对应，不夸大、不冒充。
   Honesty: the changelog matches exactly what changed.
 
-与更新节奏的关系：每周小更新不为凑数降标准——达不到，宁可不更新、在次日晨报里说明原因。每月大更新同理，规模服从质量。
+与更新节奏的关系：每周小更新不为凑数降标准——达不到，宁可不更新、在次日周一的每周报告里说明原因。每月大更新同理，规模服从质量。
 Cadence yields to quality: a day with nothing up to standard is reported as such, never filled with a substandard release.
 
 ## 优化 backlog（按优先级）/ Optimization backlog
@@ -77,7 +77,7 @@ Rule: no game mode without an account system shipped first. The sandbox stays ac
   Minimal data, opt-in leaderboard, data export and account deletion.
 - **游客仍可玩**：未登录可玩全部沙盒与游戏模式试玩，但进度只存本地、成绩不上榜；登录后再把本地存档迁移上云。
   Guests can play everything, with local-only progress; local saves migrate to the cloud on first sign-in.
-- **静态站限制**：GitHub Pages 本身没有后端，账号系统落地时需接入上述托管服务；若开通服务需要项目所有者本人注册或付费，会先在晨报里列为「等拍板」，不擅自开通。
+- **静态站限制**：GitHub Pages 本身没有后端，账号系统落地时需接入上述托管服务；若开通服务需要项目所有者本人注册或付费，会先在每周报告里列为「等拍板」，不擅自开通。
   GitHub Pages has no backend; if enabling a provider ever needs the owner's own signup or payment, that becomes a morning-report decision item first, never a silent action.
 - **上线清单**：登录/登出与找回、个人资料、云存档 schema、成绩防作弊的基本校验、本地存档迁移、隐私说明。清单全过，游戏模式才发布。
   Launch checklist: sign-in/out and recovery, profile, cloud-save schema, basic score validation, local-save migration, privacy note — all required before a game mode ships.

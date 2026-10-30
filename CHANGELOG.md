@@ -7,9 +7,12 @@ All notable changes are documented here, following Keep a Changelog and Semantic
 
 ### 规矩 / Process
 
+- 报告节奏改为每周报告、与更新同步：每周一晨汇总上一周（含周日晚的每周小更新，当周有每月大更新时一并纳入），取代每日晨报。
+  Reporting cadence changed to a weekly report synced with updates: Monday mornings cover the previous week, replacing the daily report.
+
 - 更新节奏定为：每周一小更新（补丁版本）、每月一大更新（次版本＋打 tag 发布），质量优先，写入 ROADMAP。（同日曾短暂定为每日一更，已改定为每周。）
   Cadence set: one small update weekly (patch), one major update monthly (minor version, tagged release), quality first. (Briefly set to daily earlier the same day, then revised to weekly.)
-- 新增「总监签字」质量门：每版更新须过总监标准清单（视觉秩序、细节完整、功能闭环、测试全过）才发布；不达标宁可不更新并在晨报说明，不推凑数版本。
+- 新增「总监签字」质量门：每版更新须过总监标准清单（视觉秩序、细节完整、功能闭环、测试全过）才发布；不达标宁可不更新并在每周报告说明，不推凑数版本。
   Added a director sign-off gate: no release ships below the quality checklist; a missed day is reported honestly instead of shipping filler.
 
 ## [0.2.0] - 2026-10-29
