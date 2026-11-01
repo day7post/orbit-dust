@@ -14,6 +14,8 @@ A self-contained single-page interactive physics toy: drag to launch planets and
 - **参数滑杆**：引力强度 G（0–2.5×）、拖尾长度（0–300）、模拟速度（0.25–3×）。
 - **✦ 惊喜一下**：一键生成偏心彗星 + 一簇星尘，立刻有好看的画面。
   Surprise button: an eccentric comet plus a stardust cluster, instantly.
+- **点选天体**：点一下某个天体即选中（虚线圈标出），右侧面板显示种类、质量与实时速度；可跟随镜头、改行星质量（0.5–60）、删除该天体；点空白处取消选中。轻点是查看、拖动是发射，两者不抢操作。
+  Click to inspect: click a body to select it (dashed ring) and see its kind, mass and live speed; follow it, change a planet's mass (0.5–60), or delete it. A tap inspects, a drag launches.
 - **复制分享链接**：当前场景被编进 URL hash（`share.js`，带数值校验），打开链接即可还原同一片星尘；坏链接自动回退默认预设。
   Share links: the scene is encoded into the URL hash with validation; bad links fall back to the default preset.
 - **可玩性保障**：天体上限 240（顶栏显示 n/240）；顶栏显示 FPS，帧率持续偏低时自动降质（先缩短拖尾、再减子步）并明示「流畅模式」，恢复后自动还原。
@@ -61,7 +63,9 @@ approximate energy conservation, and momentum-conserving merges.
 | `main.js` | 画布渲染、交互、预设场景 |
 | `physics.js` | 物理核心（Verlet + 软化 + 合并） |
 | `share.js` | 分享链接编解码（浏览器 / Node 共用） |
+| `inspect.js` | 点选逻辑（选中 / 跟随 / 改质量，浏览器 / Node 共用） |
 | `tests/physics.test.js` | Node 测试（无第三方依赖） |
+| `tests/inspect.test.js` | 点选逻辑 Node 测试 |
 | `docs/codex-review.md` | Codex 优化咨询记录（含失败实情） |
 | `ROADMAP.md` | 长期优化路线与游戏模式/账号系统规矩 |
 | `CHANGELOG.md` | 更新日志（每次更新必写） |

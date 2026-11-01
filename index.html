@@ -30,7 +30,7 @@
       <canvas id="scene" aria-label="引力沙盒画布：在空白处按住拖拽，松手发射一颗行星"></canvas>
       <p id="first-tip" class="first-tip">✦ 按住拖拽，松手发射你的第一颗行星</p>
     </div>
-    <p class="hint">在空白处按住拖拽 → 出现速度箭头 → 松手发射行星。拖拽的长度与方向就是初速度。</p>
+    <p class="hint">在空白处按住拖拽 → 出现速度箭头 → 松手发射行星。点一下某个天体可以选中它，在面板中查看、跟随、改质量或删除。</p>
   </section>
 
   <aside class="panel">
@@ -49,6 +49,18 @@
       <button type="button" id="btn-clear">清除行星</button>
       <button type="button" id="btn-surprise">✦ 惊喜一下</button>
     </div>
+
+    <h2>选中天体</h2>
+    <p id="sel-info" class="note">未选中：点一下某个天体查看它，拖拽则是发射新行星。</p>
+    <label class="slider">
+      <span>质量 <output id="out-sel-mass">—</output></span>
+      <input type="range" id="rng-sel-mass" min="0.5" max="60" step="0.5" value="3" disabled>
+    </label>
+    <div class="btn-row">
+      <button type="button" id="btn-follow" disabled>◎ 跟随它</button>
+      <button type="button" id="btn-delete-sel" disabled>删除该天体</button>
+    </div>
+    <p id="sel-star-note" class="note" hidden>恒星质量固定，不可调；跟随与删除仍可用。</p>
 
     <h2>分享</h2>
     <div class="btn-row">
@@ -85,6 +97,7 @@
 
 <script src="physics.js"></script>
 <script src="share.js"></script>
+<script src="inspect.js"></script>
 <script src="main.js"></script>
 </body>
 </html>

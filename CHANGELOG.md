@@ -15,6 +15,34 @@ All notable changes are documented here, following Keep a Changelog and Semantic
 - 新增「总监签字」质量门：每版更新须过总监标准清单（视觉秩序、细节完整、功能闭环、测试全过）才发布；不达标宁可不更新并在每周报告说明，不推凑数版本。
   Added a director sign-off gate: no release ships below the quality checklist; a missed day is reported honestly instead of shipping filler.
 
+## [0.3.0] - 2026-11-01
+
+### 新增 / Added
+
+- **点选天体**（本版主线，ROADMAP backlog 第 3 项「点选天体跟随 / 改质量」落地）：
+  Click-to-inspect (this release's theme — backlog item 3):
+  - 点一下某个天体即选中：虚线圈标出选中目标，右侧面板实时显示种类（恒星 / 行星）、质量与速度；点空白处取消选中。
+    Click a body to select it: a dashed ring marks the target and the side panel shows its kind (star / planet), mass and live speed; clicking empty space clears the selection.
+  - 「◎ 跟随它」：镜头平滑跟随选中天体，取消跟随即回到全景；选中天体因合并或飞离消失时，跟随与选中自动解除，不留悬空状态。
+    Follow mode: the camera eases after the selected body; unfollowing returns to the full view, and if the body merges away or flies off, selection and follow clear themselves.
+  - 质量滑杆（0.5–60）：改行星质量并同步改半径；恒星质量固定，滑杆禁用并明示原因。
+    Mass slider (0.5–60) for planets, with radius updated to match; stars keep a fixed mass, with the slider disabled and the reason stated.
+  - 「删除该天体」：一键移除选中天体；未选中时跟随、删除与质量滑杆均为禁用状态，不留可点却无效的按钮。
+    Delete button removes the selected body; with nothing selected, follow / delete / mass controls are all disabled — no dead buttons.
+  - 点选与拖拽发射用位移区分（≤6px 为点选）：轻点是查看，拖动是发射，两者不再抢操作。
+    Click vs drag-launch is separated by movement (≤6px counts as a click), so inspecting never hijacks a launch.
+  - 选中逻辑抽为独立的 `inspect.js`（浏览器 / Node 共用），附 Node 测试 5 项。
+    Selection logic lives in a standalone `inspect.js` (browser / Node shared), covered by 5 Node tests.
+- 本版测试：物理 4 项＋选中 5 项＋ main.js 的 DOM 桩实测（点选 / 跟随镜头 / 改质量 / 取消选中 / 拖拽发射 / 删除）全部通过。
+  Tests this release: 4 physics + 5 selection Node tests, plus a DOM-stub run of main.js covering select / follow / mass edit / deselect / drag-launch / delete — all green.
+
+### 说明 / Notes
+
+- 性能方向曾实测 Barnes–Hut（ROADMAP backlog 第 1 项）：在 240 体上限内，直接求和每步约 0.5ms，而 Barnes–Hut 反慢 2–4.5 倍（建树开销大于收益），故本版不上 Barnes–Hut、只保留精确直算；待天体上限提升后再重估。
+  Performance note: Barnes–Hut was prototyped and measured, not shipped — under the 240-body cap the direct sum costs ~0.5ms/step while Barnes–Hut ran 2–4.5× slower (tree overhead outweighs gains). It will be revisited only if the body cap rises.
+- 游戏模式仍未推出：按 ROADMAP 硬性前置，须先落地账号系统；托管身份服务需项目所有者本人注册，列为每周报告「等拍板」事项，不擅自开通。
+  No game mode yet: per the ROADMAP hard gate it ships only after an account system, and enabling a managed auth provider needs the owner's own signup — listed as a pending decision, never silently enabled.
+
 ## [0.2.0] - 2026-10-29
 
 ### 新增 / Added

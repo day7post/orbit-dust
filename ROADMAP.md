@@ -46,12 +46,12 @@ Cadence yields to quality: a day with nothing up to standard is reported as such
 
 ## 优化 backlog（按优先级）/ Optimization backlog
 
-1. **性能**：天体数量上升时引入 Barnes–Hut 近似或空间划分；子步数自适应；拖尾渲染优化，保证帧率稳定。
-   Performance: Barnes–Hut approximation or spatial partitioning at high body counts, adaptive substeps, cheaper trail rendering.
+1. **性能**：天体数量上升时引入 Barnes–Hut 近似或空间划分；子步数自适应；拖尾渲染优化，保证帧率稳定。（0.3.0 周期已实测 Barnes–Hut：在 240 体上限内反比直算慢 2–4.5 倍，暂不上，待上限提升后再重估。）
+   Performance: Barnes–Hut approximation or spatial partitioning at high body counts, adaptive substeps, cheaper trail rendering. (Measured in the 0.3.0 cycle: Barnes–Hut ran 2–4.5× slower than the direct sum under the 240-body cap, so it is deferred until the cap rises.)
 2. **物理精度**：Codex 额度恢复后重跑优化咨询，与现行参数（Verlet + Plummer ε=4）做差异对照，结论写入 CHANGELOG；可选的更高阶辛积分与能量漂移面板。
    Physics accuracy: re-run the Codex review when quota recovers and diff it against current parameters; optional higher-order symplectic integration and an energy-drift panel.
-3. **体验与视觉**：移动端触控打磨、点选天体跟随/改质量、预设图库、深色视觉细节精修。
-   UX and visuals: mobile touch polish, click-to-follow and mass editing, a preset gallery, visual refinement.
+3. **体验与视觉**：移动端触控打磨、~~点选天体跟随/改质量（0.3.0 已落地）~~、预设图库、深色视觉细节精修。
+   UX and visuals: mobile touch polish, ~~click-to-follow and mass editing (shipped in 0.3.0)~~, a preset gallery, visual refinement.
 4. **工程质量**：扩充物理测试；GitHub Actions 在每次 push 自动跑测试；正式版本打 tag 并发布 Release。
    Engineering: more physics tests, GitHub Actions CI on push, tagged releases.
 

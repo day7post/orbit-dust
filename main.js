@@ -4,6 +4,7 @@
 (function () {
   var P = window.OrbitPhysics;
   var S = window.OrbitShare;
+  var I = window.OrbitInspect;
   var canvas = document.getElementById('scene');
   var ctx = canvas.getContext('2d');
 
@@ -21,7 +22,10 @@
     speed: 1,
     merge: true,
     preset: 'solar',
-    drag: null, // {x, y, cx, cy}
+    drag: null, // {x, y, cx, cy} in world coordinates
+    selected: null, // body picked by click, or null
+    follow: false,  // camera follows state.selected
+    view: { x: 0, y: 0 }, // camera offset added when drawing (world -> screen)
     launchedOnce: false,
     fromShare: false,
     shareAnchor: null, // centroid of shared scene's stars, for re-centring
@@ -30,6 +34,19 @@
 
   function centre() {
     return { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
+  }
+
+  // Screen centre expressed in world coordinates (undoes the camera offset).
+  function worldCentre() {
+    var c = centre();
+    return { x: c.x - state.view.x, y: c.y - state.view.y };
+  }
+
+  function clearSelection() {
+    state.selected = null;
+    state.follow = false;
+    state.view = { x: 0, y: 0 };
+    updateSelectionUI();
   }
 
   // ---------- body-count cap ----------
@@ -121,6 +138,7 @@
   function loadPreset(name) {
     state.preset = name;
     state.fromShare = false;
+    clearSelection();
     state.bodies = presets[name]();
     state.bodies.forEach(function (b) { b.trail = []; });
     trimToCap();
@@ -183,7 +201,10 @@
   // ---------- interaction: drag to launch ----------
   function pos(e) {
     var r = canvas.getBoundingClientRect();
-    return { x: e.clientX - r.left, y: e.clientY - r.top };
+    // pointer coords are screen coords; subtract the camera offset to get
+    // world coords, so clicks and launches land where the player sees them
+    return { x: e.clientX - r.left - state.view.x,
+             y: e.clientY - r.top - state.view.y };
   }
   canvas.addEventListener('pointerdown', function (e) {
     var p = pos(e);
@@ -199,6 +220,14 @@
     if (!state.drag) return;
     var d = state.drag;
     state.drag = null;
+    // A near-motionless press is a click: select the body under it (or
+    // clear the selection when clicking empty space). A real drag launches.
+    if (I && I.isClick(d.cx - d.x, d.cy - d.y)) {
+      state.selected = I.pickBody(state.bodies, d.x, d.y);
+      if (!state.selected) { state.follow = false; state.view = { x: 0, y: 0 }; }
+      updateSelectionUI();
+      return;
+    }
     var vx = (d.cx - d.x) * 0.022;
     var vy = (d.cy - d.y) * 0.022;
     addBody(P.createBody({ x: d.x, y: d.y, vx: vx, vy: vy, mass: 3, radius: 3.5 }));
@@ -244,7 +273,7 @@
   $('btn-surprise').addEventListener('click', function () {
     var heavy = heaviest();
     if (!heavy) { loadPreset('solar'); heavy = heaviest(); }
-    var c = centre();
+    var c = worldCentre();
     // one eccentric comet: well under circular speed plus an inward push,
     // so it dives toward the star and slingshots back out
     var ang = Math.random() * Math.PI * 2;
@@ -306,6 +335,55 @@
     $('out-speed').textContent = state.speed.toFixed(2).replace(/0$/, '') + '×';
   });
 
+  // ---------- selection: inspect / follow / edit mass / delete ----------
+  function updateSelectionUI() {
+    var info = $('sel-info');
+    if (!info) return;
+    var b = state.selected;
+    var slider = $('rng-sel-mass'), out = $('out-sel-mass');
+    var followBtn = $('btn-follow'), delBtn = $('btn-delete-sel');
+    var starNote = $('sel-star-note');
+    if (!b) {
+      info.textContent = '未选中：点一下某个天体查看它，拖拽则是发射新行星。';
+      if (slider) slider.disabled = true;
+      if (out) out.textContent = '—';
+      if (followBtn) { followBtn.disabled = true; followBtn.textContent = '◎ 跟随它'; }
+      if (delBtn) delBtn.disabled = true;
+      if (starNote) starNote.hidden = true;
+      return;
+    }
+    var kind = b.isStar ? '恒星' : '行星';
+    info.textContent = kind + ' · 质量 ' + b.mass.toFixed(1) + ' · 速度 ' +
+      I.bodySpeed(b).toFixed(2) + (state.follow ? ' · 跟随中' : '');
+    if (slider) {
+      slider.disabled = !!b.isStar;
+      if (!b.isStar) slider.value = Math.min(Math.max(b.mass, 0.5), 60);
+    }
+    if (out) out.textContent = b.isStar ? '恒星固定' : b.mass.toFixed(1);
+    if (followBtn) {
+      followBtn.disabled = false;
+      followBtn.textContent = state.follow ? '取消跟随' : '◎ 跟随它';
+    }
+    if (delBtn) delBtn.disabled = false;
+    if (starNote) starNote.hidden = !b.isStar;
+  }
+  $('btn-follow').addEventListener('click', function () {
+    if (!state.selected) return;
+    state.follow = !state.follow;
+    if (!state.follow) state.view = { x: 0, y: 0 }; // back to the full view
+    updateSelectionUI();
+  });
+  $('btn-delete-sel').addEventListener('click', function () {
+    if (!state.selected) return;
+    state.bodies = state.bodies.filter(function (b) { return b !== state.selected; });
+    clearSelection();
+  });
+  $('rng-sel-mass').addEventListener('input', function () {
+    if (!state.selected || state.selected.isStar) return;
+    I.setMass(state.selected, parseFloat(this.value));
+    updateSelectionUI();
+  });
+
   // ---------- adaptive quality ----------
   // Watch the (smoothed) frame time. Sustained < ~45fps steps quality down:
   // first shorter trails, then fewer physics substeps. Sustained > 55fps
@@ -356,10 +434,17 @@
       while (b.trail.length > trail) b.trail.shift();
     });
     // drop bodies that flew far away so the sandbox stays usable
-    var c = centre();
+    var c = worldCentre();
     state.bodies = state.bodies.filter(function (b) {
       return b.isStar || Math.hypot(b.x - c.x, b.y - c.y) < 3000;
     });
+    // a selected body may have merged away or flown off: drop the
+    // selection (and the camera follow) instead of pointing at nothing
+    if (state.selected && state.bodies.indexOf(state.selected) < 0) {
+      state.selected = null;
+      state.follow = false;
+      state.view = { x: 0, y: 0 };
+    }
   }
 
   function draw() {
@@ -373,6 +458,10 @@
       ctx.fillRect(sx, sy, 1.2, 1.2);
     }
 
+    // Everything below is drawn in world coordinates: the camera offset
+    // (follow mode) shifts bodies, trails and the drag arrow together.
+    ctx.save();
+    ctx.translate(state.view.x, state.view.y);
     var trail = effectiveTrail();
     state.bodies.forEach(function (b) {
       if (trail > 0 && b.trail.length > 1) {
@@ -403,6 +492,16 @@
       ctx.beginPath(); ctx.arc(b.x, b.y, Math.max(1.4, b.radius), 0, Math.PI * 2); ctx.fill();
     });
 
+    // selection ring: the player must always see what they picked
+    if (state.selected) {
+      var s = state.selected;
+      ctx.strokeStyle = 'rgba(125,211,252,0.9)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.arc(s.x, s.y, Math.max(s.radius + 7, 10), 0, Math.PI * 2); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
     if (state.drag) {
       var d = state.drag;
       ctx.strokeStyle = '#7dd3fc';
@@ -419,18 +518,27 @@
       ctx.font = '12px sans-serif';
       ctx.fillText('v = ' + Math.hypot(d.cx - d.x, d.cy - d.y).toFixed(0) + ' px drag', d.cx + 10, d.cy - 8);
     }
+    ctx.restore();
   }
 
   var statTick = 0;
   function frame(ts) {
     perfSample(ts || 0);
     if (state.running) simulate();
+    // follow camera: ease the view so the selected body stays centred
+    if (state.follow && state.selected) {
+      var c = centre();
+      var tx = c.x - state.selected.x, ty = c.y - state.selected.y;
+      state.view.x += (tx - state.view.x) * 0.15;
+      state.view.y += (ty - state.view.y) * 0.15;
+    }
     draw();
     if (++statTick % 20 === 0) {
       $('stat-bodies').textContent = state.bodies.length;
       $('stat-fps').textContent = Math.round(perf.fps);
       var e = P.totalEnergy(state.bodies, BASE_G * state.gScale, SOFTENING);
       $('stat-energy').textContent = state.bodies.length ? e.total.toFixed(0) : '—';
+      updateSelectionUI(); // speed and mass drift over time; keep it fresh
     }
     requestAnimationFrame(frame);
   }
